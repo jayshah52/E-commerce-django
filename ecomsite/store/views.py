@@ -1,4 +1,3 @@
-
 # Create your views here.
 import json
 import datetime
@@ -8,7 +7,6 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
-
 
 def store(request):
 

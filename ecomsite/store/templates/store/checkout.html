@@ -69,44 +69,41 @@
 		</div>
 	</div>
     <script type="text/javascript">
-    var total = '{{ order.get_cart_total }}'
+    let total = '{{ order.get_cart_total }}'
     if(user != 'AnonymousUser'){
         document.getElementById('user-info').innerHTML = ''
     }
 
-    var form = document.getElementById('form')
-    form.addEventListener('submit', function (e){
-        e.preventDefault()
+    let form = document.getElementById('form')
+    form.addEventListener('submit', e => {
+        e.preventDefault();
         console.log("Form Submitted")
         document.getElementById('form-button').classList.add("hidden")
         document.getElementById('payment-info').classList.remove('hidden')
-        document.getElementById('make-payment').addEventListener('click', function (e){
-            submitFormData()
-        })
-    })
-    function submitFormData(){
-        var userFormData = {
+        document.getElementById('make-payment').addEventListener('click', e => submitFormData());
+    });
+    const submitFormData = () => {
+        let userFormData = {
             'name': null,
             'email': null,
             'total':total,
-        }
-        var shippingInfo = {
+        };
+        let shippingInfo = {
             'address':null,
             'city':null,
             'state':null,
             'zipcode':null,
-        }
-        shippingInfo.address = form.address.value
-        shippingInfo.city = form.city.value
-        shippingInfo.state = form.state.value
-        shippingInfo.zipcode = form.zipcode.value
+        };
+        shippingInfo.address = form.address.value;
+        shippingInfo.city = form.city.value;
+        shippingInfo.state = form.state.value;
+        shippingInfo.zipcode = form.zipcode.value;
 
         if(user == 'AnonymousUser'){
-            userFormData.name = form.name.value
-            userFormData.email = form.email.value
-
+            userFormData.name = form.name.value;
+            userFormData.email = form.email.value;
         }
-        var url = '/process_order/'
+        let url = '/process_order/';
         fetch(url, {
             method: 'POST',
             headers:{
@@ -115,12 +112,12 @@
             },
             body: JSON.stringify({'userData':userFormData,'shipping':shippingInfo})
         })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Success", data)
-            alert("Transaction Completed!")
-            window.location.href = "{% url 'store' %}"
-        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(`Success, ${data}`);
+            alert("Transaction Completed!");
+            window.location.href = "{% url 'store' %}";
+        });
     }
     </script>
 {% endblock content %}
