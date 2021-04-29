@@ -1,26 +1,17 @@
-// const axios = require('axios')
-
-
-var updateBtns = document.getElementsByClassName('update-cart')
-// alert(csrftoken)
-for (let i = 0; i < updateBtns.length; i++) {
-    updateBtns[i].addEventListener('click', function () {
-        var productId = this.dataset.product
-        var action = this.dataset.action
-        console.log(productId)
-        console.log(action)
-        if (user === 'AnonymousUser') {
-            alert("User Not logged in")
-        } else {
-            updateUserOrder(productId, action)
-        }
-    })
+let updateBtns = document.getElementsByClassName('update-cart')
+for (const updateBtn of updateBtns) {
+    updateBtn.addEventListener('click', () => {
+        let productId = this.dataset.product;
+        let action = this.dataset.action;
+        console.log(productId);
+        console.log(action);
+        (user === 'AnonymousUser') ? alert("user not logged in") : updateUserOrder(productId,action);
+    });
 }
 
-function updateUserOrder(productId, action){
-    console.log("ACTION IS", action)
-    var url = '/update_item/'
-
+const updateUserOrder = (productId, action) => {
+    console.log(`action is ${action}`);
+    let url = '/update_item/';
     fetch(url, {
         method: 'POST',
         headers: {
@@ -28,16 +19,12 @@ function updateUserOrder(productId, action){
             'X-CSRFToken': csrftoken,
 
         },
-
         body: JSON.stringify({'productId':productId, 'action':action} ),
         credentials: 'include'
-
     })
-        .then((response) => {
-            return response.json()
-        })
-        .then((data)=>{
-            console.log("DATAAAA", data)
+        .then(response => response.json())
+        .then(data => {
+            console.log(`DATA ${data}`)
             location.reload()
-        })
-}
+        });
+};
